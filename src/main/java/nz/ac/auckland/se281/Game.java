@@ -23,18 +23,21 @@ public class Game {
 
     MessageCli.START_ROUND.printMessage(Integer.toString(roundNumber));
     MessageCli.ASK_INPUT.printMessage();
-
     String input = Utils.scanner.nextLine();
-    for (int i = 0; i <= 5; i++) {
-      if (input.equals(Integer.toString(i))) {
-        correctFingers = true;
-      }
-    }
 
-    if (correctFingers) {
-      MessageCli.PRINT_INFO_HAND.printMessage(playerName, input);
-    } else {
-      MessageCli.INVALID_INPUT.printMessage();
+    while (!correctFingers) {
+      for (int i = 0; i <= 5; i++) {
+        if (input.equals(Integer.toString(i))) {
+          correctFingers = true;
+        }
+      }
+
+      if (correctFingers) {
+        MessageCli.PRINT_INFO_HAND.printMessage(playerName, input);
+      } else {
+        MessageCli.INVALID_INPUT.printMessage();
+        input = Utils.scanner.nextLine();
+      }
     }
   }
 
