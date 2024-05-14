@@ -16,7 +16,8 @@ public class Game {
   public void play() {
     roundNumber++;
     MessageCli.START_ROUND.printMessage(Integer.toString(roundNumber));
-
+    MessageCli.ASK_INPUT.printMessage();
+    MessageCli.INVALID_INPUT.printMessage();
   }
 
   public void endGame() {}
