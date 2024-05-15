@@ -1,6 +1,6 @@
 package nz.ac.auckland.se281;
 
-public class EasyDifficulty implements DifficultyAI {
+public class EasyDifficulty implements RobotDifficulty {
 
   private Strategy strategy;
 

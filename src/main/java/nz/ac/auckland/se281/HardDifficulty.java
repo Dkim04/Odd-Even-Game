@@ -1,3 +1,3 @@
 package nz.ac.auckland.se281;
 
-public class HardDifficulty implements DifficultyAI {}
+public class HardDifficulty implements RobotDifficulty {}
