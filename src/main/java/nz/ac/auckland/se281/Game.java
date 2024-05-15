@@ -8,23 +8,30 @@ public class Game {
 
   private int roundNumber = 0;
   private String playerName;
+  private Difficulty gameDifficulty;
+  private Choice gameChoice;
 
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // the first element of options[0]; is the name of the player
     MessageCli.WELCOME_PLAYER.printMessage(options[0]);
     playerName = options[0];
+    gameDifficulty = difficulty;
+    gameChoice = choice;
   }
 
   public void play() {
 
     boolean correctFingers = false;
 
+    // increment the round number each time the method is called
     roundNumber++;
 
+    // print start round message with round number and ask for input
     MessageCli.START_ROUND.printMessage(Integer.toString(roundNumber));
     MessageCli.ASK_INPUT.printMessage();
     String input = Utils.scanner.nextLine();
 
+    // keep a continuous loop until the correct amount of fingers is inputed
     while (!correctFingers) {
       for (int i = 0; i <= 5; i++) {
         if (input.equals(Integer.toString(i))) {
@@ -38,6 +45,11 @@ public class Game {
         MessageCli.INVALID_INPUT.printMessage();
         input = Utils.scanner.nextLine();
       }
+    }
+
+    // use swtich case method to call the right difficulty level
+    switch (gameDifficulty) {
+      case EASY:
     }
   }
 
