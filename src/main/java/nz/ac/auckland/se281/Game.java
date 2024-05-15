@@ -8,17 +8,17 @@ import nz.ac.auckland.se281.Main.Difficulty;
 public class Game {
 
   private int roundNumber = 0;
-  private String playerName;
-  private Difficulty gameDifficulty;
-  private Choice gameChoice;
   private int robotFingers;
-  private String sum;
-  private ArrayList<Integer> playerHistory;
-  private boolean robotWin = false;
-  private Strategy lastStrategy;
-  private boolean gameStarted = false;
   private int playersWins = 0;
   private int robotsWins = 0;
+  private String playerName;
+  private String sum;
+  private Choice gameChoice;
+  private boolean robotWin = false;
+  private boolean gameStarted = false;
+  private Difficulty gameDifficulty;
+  private Strategy lastStrategy;
+  private ArrayList<Integer> playerHistory;
 
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // the first element of options[0]; is the name of the player
@@ -29,6 +29,10 @@ public class Game {
     playerHistory = new ArrayList<>();
     roundNumber = 0;
     gameStarted = true;
+    playersWins = 0;
+    robotsWins = 0;
+    robotWin = false;
+    lastStrategy = null;
   }
 
   public void play() {
@@ -107,21 +111,34 @@ public class Game {
 
   public void endGame() {
 
-    MessageCli.PRINT_PLAYER_WINS.printMessage(
-        playerName, Integer.toString(playersWins), Integer.toString(robotsWins));
-    MessageCli.PRINT_PLAYER_WINS.printMessage(
-        "HAL-9000", Integer.toString(robotsWins), Integer.toString(playersWins));
+    if (!gameStarted) {
+      MessageCli.GAME_NOT_STARTED.printMessage();
+    } else if (gameStarted) {
+      MessageCli.PRINT_PLAYER_WINS.printMessage(
+          playerName, Integer.toString(playersWins), Integer.toString(robotsWins));
+      MessageCli.PRINT_PLAYER_WINS.printMessage(
+          "HAL-9000", Integer.toString(robotsWins), Integer.toString(playersWins));
 
-    if (playersWins > robotsWins) {
-      MessageCli.PRINT_END_GAME.printMessage(playerName);
-    } else if (playersWins < robotsWins) {
-      MessageCli.PRINT_END_GAME.printMessage("HAL-9000");
-    } else if (playersWins == robotsWins) {
-      MessageCli.PRINT_END_GAME_TIE.printMessage();
+      if (playersWins > robotsWins) {
+        MessageCli.PRINT_END_GAME.printMessage(playerName);
+      } else if (playersWins < robotsWins) {
+        MessageCli.PRINT_END_GAME.printMessage("HAL-9000");
+      } else if (playersWins == robotsWins) {
+        MessageCli.PRINT_END_GAME_TIE.printMessage();
+      }
+
+      gameStarted = false;
     }
-
-    gameStarted = false;
   }
 
-  public void showStats() {}
+  public void showStats() {
+    if (!gameStarted) {
+      MessageCli.GAME_NOT_STARTED.printMessage();
+    } else if (gameStarted) {
+      MessageCli.PRINT_PLAYER_WINS.printMessage(
+          playerName, Integer.toString(playersWins), Integer.toString(robotsWins));
+      MessageCli.PRINT_PLAYER_WINS.printMessage(
+          "HAL-9000", Integer.toString(robotsWins), Integer.toString(playersWins));
+    }
+  }
 }
