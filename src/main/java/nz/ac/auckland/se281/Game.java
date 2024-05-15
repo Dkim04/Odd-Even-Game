@@ -10,6 +10,7 @@ public class Game {
   private String playerName;
   private Difficulty gameDifficulty;
   private Choice gameChoice;
+  private int fingersAI;
 
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // the first element of options[0]; is the name of the player
@@ -47,10 +48,17 @@ public class Game {
       }
     }
 
+    // creating instances of each difficulty class
+    EasyDifficulty Easy = new EasyDifficulty(new RandomStrategy());
+
     // use swtich case method to call the right difficulty level
     switch (gameDifficulty) {
       case EASY:
+        fingersAI = Easy.play();
     }
+
+    // print output of AI
+    MessageCli.PRINT_INFO_HAND.printMessage("HAL-9000", Integer.toString(fingersAI));
   }
 
   public void endGame() {}
