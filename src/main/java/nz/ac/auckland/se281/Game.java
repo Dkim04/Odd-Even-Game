@@ -74,6 +74,7 @@ public class Game {
 
       if (gameChoice == Choice.EVEN) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", playerName);
+        robotWin = false;
       } else if (gameChoice == Choice.ODD) {
         robotWin = true;
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", "HAL-9000");
@@ -83,6 +84,7 @@ public class Game {
 
       if (gameChoice == Choice.ODD) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", playerName);
+        robotWin = false;
       } else if (gameChoice == Choice.EVEN) {
         robotWin = true;
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", "HAL-9000");
