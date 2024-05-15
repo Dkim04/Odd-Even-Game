@@ -54,19 +54,11 @@ public class Game {
       }
     }
 
-    // creating instances of each difficulty class
-    EasyDifficulty easy = new EasyDifficulty(new RandomStrategy());
-    MediumDifficulty medium =
-        new MediumDifficulty(new RandomStrategy(), roundNumber, playerHistory);
+    RobotDifficulty robotDifficulty =
+        RobotDifficultyFactory.createRobotDifficulty(
+            gameDifficulty, gameChoice, roundNumber, playerHistory);
 
-    // use swtich case method to call the right difficulty level
-    switch (gameDifficulty) {
-      case EASY:
-        robotFingers = easy.play();
-
-      case MEDIUM:
-        robotFingers = medium.play();
-    }
+    robotFingers = robotDifficulty.play();
 
     // print output of robot
     MessageCli.PRINT_INFO_HAND.printMessage("HAL-9000", Integer.toString(robotFingers));
