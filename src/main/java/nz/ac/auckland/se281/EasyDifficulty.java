@@ -1,3 +1,3 @@
 package nz.ac.auckland.se281;
 
-public class EasyDifficulty extends DifficultyAI {}
+public class EasyDifficulty implements DifficultyAI {}
