@@ -16,6 +16,7 @@ public class Game {
   private ArrayList<Integer> playerHistory;
   private boolean robotWin = false;
   private Strategy lastStrategy;
+  private boolean gameStarted = false;
 
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // the first element of options[0]; is the name of the player
@@ -25,69 +26,75 @@ public class Game {
     gameChoice = choice;
     playerHistory = new ArrayList<>();
     roundNumber = 0;
+    gameStarted = true;
   }
 
   public void play() {
 
-    boolean correctFingers = false;
+    if (!gameStarted) {
+      MessageCli.GAME_NOT_STARTED.printMessage();
+    } else if (gameStarted) {
 
-    // increment the round number each time the method is called
-    roundNumber++;
+      boolean correctFingers = false;
 
-    // print start round message with round number and ask for input
-    MessageCli.START_ROUND.printMessage(Integer.toString(roundNumber));
-    MessageCli.ASK_INPUT.printMessage();
-    String input = Utils.scanner.nextLine();
+      // increment the round number each time the method is called
+      roundNumber++;
 
-    // keep a continuous loop until the correct amount of fingers is inputed
-    while (!correctFingers) {
-      for (int i = 0; i <= 5; i++) {
-        if (input.equals(Integer.toString(i))) {
-          correctFingers = true;
+      // print start round message with round number and ask for input
+      MessageCli.START_ROUND.printMessage(Integer.toString(roundNumber));
+      MessageCli.ASK_INPUT.printMessage();
+      String input = Utils.scanner.nextLine();
+
+      // keep a continuous loop until the correct amount of fingers is inputed
+      while (!correctFingers) {
+        for (int i = 0; i <= 5; i++) {
+          if (input.equals(Integer.toString(i))) {
+            correctFingers = true;
+          }
+        }
+
+        if (correctFingers) {
+          MessageCli.PRINT_INFO_HAND.printMessage(playerName, input);
+          playerHistory.add(Integer.parseInt(input));
+        } else {
+          MessageCli.INVALID_INPUT.printMessage();
+          input = Utils.scanner.nextLine();
         }
       }
 
-      if (correctFingers) {
-        MessageCli.PRINT_INFO_HAND.printMessage(playerName, input);
-        playerHistory.add(Integer.parseInt(input));
-      } else {
-        MessageCli.INVALID_INPUT.printMessage();
-        input = Utils.scanner.nextLine();
-      }
-    }
+      RobotDifficulty robotDifficulty =
+          RobotDifficultyFactory.createRobotDifficulty(
+              gameDifficulty, gameChoice, roundNumber, playerHistory, robotWin, lastStrategy);
 
-    RobotDifficulty robotDifficulty =
-        RobotDifficultyFactory.createRobotDifficulty(
-            gameDifficulty, gameChoice, roundNumber, playerHistory, robotWin, lastStrategy);
+      robotFingers = robotDifficulty.play();
+      lastStrategy = robotDifficulty.getStrategy();
 
-    robotFingers = robotDifficulty.play();
-    lastStrategy = robotDifficulty.getStrategy();
+      // print output of robot
+      MessageCli.PRINT_INFO_HAND.printMessage("HAL-9000", Integer.toString(robotFingers));
 
-    // print output of robot
-    MessageCli.PRINT_INFO_HAND.printMessage("HAL-9000", Integer.toString(robotFingers));
+      // obtain the sum of fingers as a string
+      sum = Integer.toString(Integer.parseInt(input) + robotFingers);
 
-    // obtain the sum of fingers as a string
-    sum = Integer.toString(Integer.parseInt(input) + robotFingers);
+      // check whether sum is even or odd and print correct output accordingly
+      if (Utils.isEven(Integer.parseInt(sum))) {
 
-    // check whether sum is even or odd and print correct output accordingly
-    if (Utils.isEven(Integer.parseInt(sum))) {
+        if (gameChoice == Choice.EVEN) {
+          MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", playerName);
+          robotWin = false;
+        } else if (gameChoice == Choice.ODD) {
+          robotWin = true;
+          MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", "HAL-9000");
+        }
 
-      if (gameChoice == Choice.EVEN) {
-        MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", playerName);
-        robotWin = false;
-      } else if (gameChoice == Choice.ODD) {
-        robotWin = true;
-        MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", "HAL-9000");
-      }
+      } else if (Utils.isOdd(Integer.parseInt(sum))) {
 
-    } else if (Utils.isOdd(Integer.parseInt(sum))) {
-
-      if (gameChoice == Choice.ODD) {
-        MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", playerName);
-        robotWin = false;
-      } else if (gameChoice == Choice.EVEN) {
-        robotWin = true;
-        MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", "HAL-9000");
+        if (gameChoice == Choice.ODD) {
+          MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", playerName);
+          robotWin = false;
+        } else if (gameChoice == Choice.EVEN) {
+          robotWin = true;
+          MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", "HAL-9000");
+        }
       }
     }
   }
