@@ -17,6 +17,8 @@ public class Game {
   private boolean robotWin = false;
   private Strategy lastStrategy;
   private boolean gameStarted = false;
+  private int playersWins = 0;
+  private int robotsWins = 0;
 
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // the first element of options[0]; is the name of the player
@@ -80,8 +82,10 @@ public class Game {
 
         if (gameChoice == Choice.EVEN) {
           MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", playerName);
+          playersWins++;
           robotWin = false;
         } else if (gameChoice == Choice.ODD) {
+          robotsWins++;
           robotWin = true;
           MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", "HAL-9000");
         }
@@ -90,8 +94,10 @@ public class Game {
 
         if (gameChoice == Choice.ODD) {
           MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", playerName);
+          playersWins++;
           robotWin = false;
         } else if (gameChoice == Choice.EVEN) {
+          robotsWins++;
           robotWin = true;
           MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", "HAL-9000");
         }
@@ -99,7 +105,23 @@ public class Game {
     }
   }
 
-  public void endGame() {}
+  public void endGame() {
+
+    MessageCli.PRINT_PLAYER_WINS.printMessage(
+        playerName, Integer.toString(playersWins), Integer.toString(robotsWins));
+    MessageCli.PRINT_PLAYER_WINS.printMessage(
+        "HAL-9000", Integer.toString(robotsWins), Integer.toString(playersWins));
+
+    if (playersWins > robotsWins) {
+      MessageCli.PRINT_END_GAME.printMessage(playerName);
+    } else if (playersWins < robotsWins) {
+      MessageCli.PRINT_END_GAME.printMessage("HAL-9000");
+    } else if (playersWins == robotsWins) {
+      MessageCli.PRINT_END_GAME_TIE.printMessage();
+    }
+
+    gameStarted = false;
+  }
 
   public void showStats() {}
 }
