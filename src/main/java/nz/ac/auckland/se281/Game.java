@@ -11,6 +11,7 @@ public class Game {
   private Difficulty gameDifficulty;
   private Choice gameChoice;
   private int robotFingers;
+  private String sum;
 
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // the first element of options[0]; is the name of the player
@@ -57,8 +58,29 @@ public class Game {
         robotFingers = easy.play();
     }
 
-    // print output of AI
+    // print output of robot
     MessageCli.PRINT_INFO_HAND.printMessage("HAL-9000", Integer.toString(robotFingers));
+
+    // obtain the sum of fingers as a string
+    sum = Integer.toString(Integer.parseInt(input) + robotFingers);
+
+    // check whether sum is even or odd and print correct output accordingly
+    if (Utils.isEven(Integer.parseInt(sum))) {
+
+      if (gameChoice == Choice.EVEN) {
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", playerName);
+      } else if (gameChoice == Choice.ODD) {
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", "HAL-9000");
+      }
+
+    } else if (Utils.isOdd(Integer.parseInt(sum))) {
+
+      if (gameChoice == Choice.ODD) {
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", playerName);
+      } else if (gameChoice == Choice.EVEN) {
+        MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", "HAL-9000");
+      }
+    }
   }
 
   public void endGame() {}
