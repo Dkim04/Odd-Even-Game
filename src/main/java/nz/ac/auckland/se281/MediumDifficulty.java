@@ -9,7 +9,7 @@ public class MediumDifficulty implements RobotDifficulty {
 
   public MediumDifficulty(Choice choice, int roundNumber, ArrayList<Integer> playerHistory) {
     if (roundNumber <= 3) {
-      this.strategy = new RandomStrategy();
+      setStrategy(new RandomStrategy());
     } else {
       setStrategy(new TopStrategy(playerHistory, choice));
     }
@@ -17,6 +17,11 @@ public class MediumDifficulty implements RobotDifficulty {
 
   public void setStrategy(Strategy strategy) {
     this.strategy = strategy;
+  }
+
+  @Override
+  public Strategy getStrategy() {
+    return strategy;
   }
 
   @Override

@@ -7,7 +7,12 @@ import nz.ac.auckland.se281.Main.Difficulty;
 public class RobotDifficultyFactory {
 
   public static RobotDifficulty createRobotDifficulty(
-      Difficulty difficulty, Choice choice, int roundNumber, ArrayList<Integer> playerHistory) {
+      Difficulty difficulty,
+      Choice choice,
+      int roundNumber,
+      ArrayList<Integer> playerHistory,
+      boolean robotWin,
+      Strategy lastStrategy) {
     switch (difficulty) {
       case EASY:
         return new EasyDifficulty();
@@ -16,7 +21,7 @@ public class RobotDifficultyFactory {
         return new MediumDifficulty(choice, roundNumber, playerHistory);
 
       case HARD:
-        return new HardDifficulty();
+        return new HardDifficulty(choice, roundNumber, playerHistory, robotWin, lastStrategy);
     }
     return null;
   }

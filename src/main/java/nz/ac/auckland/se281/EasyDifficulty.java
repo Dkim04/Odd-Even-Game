@@ -2,7 +2,16 @@ package nz.ac.auckland.se281;
 
 public class EasyDifficulty implements RobotDifficulty {
 
-  public EasyDifficulty() {}
+  private Strategy strategy;
+
+  public EasyDifficulty() {
+    this.strategy = new RandomStrategy();
+  }
+
+  @Override
+  public Strategy getStrategy() {
+    return strategy;
+  }
 
   @Override
   public int play() {

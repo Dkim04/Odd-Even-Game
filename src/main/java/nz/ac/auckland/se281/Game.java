@@ -14,6 +14,8 @@ public class Game {
   private int robotFingers;
   private String sum;
   private ArrayList<Integer> playerHistory;
+  private boolean robotWin = false;
+  private Strategy lastStrategy;
 
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // the first element of options[0]; is the name of the player
@@ -56,9 +58,10 @@ public class Game {
 
     RobotDifficulty robotDifficulty =
         RobotDifficultyFactory.createRobotDifficulty(
-            gameDifficulty, gameChoice, roundNumber, playerHistory);
+            gameDifficulty, gameChoice, roundNumber, playerHistory, robotWin, lastStrategy);
 
     robotFingers = robotDifficulty.play();
+    lastStrategy = robotDifficulty.getStrategy();
 
     // print output of robot
     MessageCli.PRINT_INFO_HAND.printMessage("HAL-9000", Integer.toString(robotFingers));
@@ -72,6 +75,7 @@ public class Game {
       if (gameChoice == Choice.EVEN) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", playerName);
       } else if (gameChoice == Choice.ODD) {
+        robotWin = true;
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "EVEN", "HAL-9000");
       }
 
@@ -80,6 +84,7 @@ public class Game {
       if (gameChoice == Choice.ODD) {
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", playerName);
       } else if (gameChoice == Choice.EVEN) {
+        robotWin = true;
         MessageCli.PRINT_OUTCOME_ROUND.printMessage(sum, "ODD", "HAL-9000");
       }
     }
