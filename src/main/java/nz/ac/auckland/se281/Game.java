@@ -1,5 +1,6 @@
 package nz.ac.auckland.se281;
 
+import java.util.ArrayList;
 import nz.ac.auckland.se281.Main.Choice;
 import nz.ac.auckland.se281.Main.Difficulty;
 
@@ -12,6 +13,7 @@ public class Game {
   private Choice gameChoice;
   private int robotFingers;
   private String sum;
+  private ArrayList<Integer> playerHistory;
 
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // the first element of options[0]; is the name of the player
@@ -19,6 +21,8 @@ public class Game {
     playerName = options[0];
     gameDifficulty = difficulty;
     gameChoice = choice;
+    playerHistory = new ArrayList<>();
+    roundNumber = 0;
   }
 
   public void play() {
@@ -43,6 +47,7 @@ public class Game {
 
       if (correctFingers) {
         MessageCli.PRINT_INFO_HAND.printMessage(playerName, input);
+        playerHistory.add(Integer.parseInt(input));
       } else {
         MessageCli.INVALID_INPUT.printMessage();
         input = Utils.scanner.nextLine();
@@ -51,11 +56,16 @@ public class Game {
 
     // creating instances of each difficulty class
     EasyDifficulty easy = new EasyDifficulty(new RandomStrategy());
+    MediumDifficulty medium =
+        new MediumDifficulty(new RandomStrategy(), roundNumber, playerHistory);
 
     // use swtich case method to call the right difficulty level
     switch (gameDifficulty) {
       case EASY:
         robotFingers = easy.play();
+
+      case MEDIUM:
+        robotFingers = medium.play();
     }
 
     // print output of robot
