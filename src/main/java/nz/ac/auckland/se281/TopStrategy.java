@@ -9,6 +9,12 @@ public class TopStrategy implements Strategy {
   private int amountofOdds = 0;
   private int fingers;
 
+  /**
+   * This constructor takes in the player's history and the choice of the player and decides to play
+   * either an even or odd number of fingers from 0 to 5 based on the player's history and the
+   * choice of the game. If the player played an equal amount of even and odd numbers, the robot
+   * will play a random number of fingers from 0 and 5.
+   */
   public TopStrategy(ArrayList<Integer> playerHistory, Choice choice) {
     for (int i : playerHistory) {
       if (Utils.isEven(i)) {
@@ -40,9 +46,9 @@ public class TopStrategy implements Strategy {
     }
   }
 
+  /** This method returns the number of fingers that the robot will put out. */
   @Override
   public int getFingers() {
-    System.out.println("top");
     return fingers;
   }
 }
