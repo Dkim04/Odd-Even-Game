@@ -20,6 +20,7 @@ public class Game {
   private Strategy lastStrategy;
   private ArrayList<Integer> playerHistory;
 
+  /** This method is used to start a new game with the given parameters and initialize the game. */
   public void newGame(Difficulty difficulty, Choice choice, String[] options) {
     // the first element of options[0]; is the name of the player
     MessageCli.WELCOME_PLAYER.printMessage(options[0]);
@@ -35,6 +36,10 @@ public class Game {
     lastStrategy = null;
   }
 
+  /**
+   * This method is used to play a round of the game, while printing the player's input and the
+   * robot's input and showing the winner.
+   */
   public void play() {
 
     if (!gameStarted) {
@@ -109,16 +114,23 @@ public class Game {
     }
   }
 
+  /**
+   * This method is used to end the game and print the rounds each player won and the winner of the
+   * game or a tie if it was a tie.
+   */
   public void endGame() {
 
+    // if the game has not started, print a message saying the game has not started
     if (!gameStarted) {
       MessageCli.GAME_NOT_STARTED.printMessage();
     } else if (gameStarted) {
+      // print how many times each player has won
       MessageCli.PRINT_PLAYER_WINS.printMessage(
           playerName, Integer.toString(playersWins), Integer.toString(robotsWins));
       MessageCli.PRINT_PLAYER_WINS.printMessage(
           "HAL-9000", Integer.toString(robotsWins), Integer.toString(playersWins));
 
+      // print the winner of the game or a tie if it was a tie
       if (playersWins > robotsWins) {
         MessageCli.PRINT_END_GAME.printMessage(playerName);
       } else if (playersWins < robotsWins) {
@@ -127,14 +139,18 @@ public class Game {
         MessageCli.PRINT_END_GAME_TIE.printMessage();
       }
 
+      // reset the gameStarted variable to false
       gameStarted = false;
     }
   }
 
+  /** This method is used to show the statistics of the game any time during the game. */
   public void showStats() {
+    // if the game has not started, print a message saying the game has not started
     if (!gameStarted) {
       MessageCli.GAME_NOT_STARTED.printMessage();
     } else if (gameStarted) {
+      // print how many times each player has won
       MessageCli.PRINT_PLAYER_WINS.printMessage(
           playerName, Integer.toString(playersWins), Integer.toString(robotsWins));
       MessageCli.PRINT_PLAYER_WINS.printMessage(
