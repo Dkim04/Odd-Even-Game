@@ -3,6 +3,14 @@ package nz.ac.auckland.se281;
 import java.util.ArrayList;
 import nz.ac.auckland.se281.Main.Choice;
 
+/**
+ * This class represents the HardDifficulty.
+ *
+ * <p>This class implements the RobotDifficulty interface and is a difficulty level that the robot
+ * can use. This difficulty level is used when the robot wants to play a number of fingers based on
+ * the player's history, the choice of the game, the round number, whether the robot won the
+ * previous round, and the last strategy that the robot used.
+ */
 public class HardDifficulty implements RobotDifficulty {
 
   private Strategy strategy;
@@ -39,7 +47,9 @@ public class HardDifficulty implements RobotDifficulty {
 
       if (lastStrategy.getClass() == RandomStrategy.class) {
         setStrategy(new TopStrategy(playerHistory, choice));
-      } else if (lastStrategy.getClass() == TopStrategy.class) setStrategy(new RandomStrategy());
+      } else if (lastStrategy.getClass() == TopStrategy.class) {
+        setStrategy(new RandomStrategy());
+      }
     }
   }
 
@@ -48,12 +58,20 @@ public class HardDifficulty implements RobotDifficulty {
     this.strategy = strategy;
   }
 
-  /** This method returns the strategy that the robot will use. */
+  /**
+   * Gets the strategy that the robot will use.
+   *
+   * @return the strategy that the robot will use
+   */
   public Strategy getStrategy() {
     return strategy;
   }
 
-  /** This method returns the number of fingers that the robot will put out. */
+  /**
+   * Play method for the robot.
+   *
+   * @return the number of fingers that the robot will put out
+   */
   public int play() {
     return strategy.getFingers();
   }

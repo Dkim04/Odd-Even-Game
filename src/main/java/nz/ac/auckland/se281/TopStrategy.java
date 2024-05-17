@@ -3,6 +3,13 @@ package nz.ac.auckland.se281;
 import java.util.ArrayList;
 import nz.ac.auckland.se281.Main.Choice;
 
+/**
+ * This class is the TopStrategy.
+ *
+ * <p>This class implements the Strategy interface and is a strategy that the robot can use
+ * depending on the difficulty level. This strategy is used when the robot wants to play a number of
+ * fingers based on the player's history and the choice of the game.
+ */
 public class TopStrategy implements Strategy {
 
   private int amountofEvens = 0;
@@ -46,7 +53,11 @@ public class TopStrategy implements Strategy {
     }
   }
 
-  /** This method returns the number of fingers that the robot will put out. */
+  /**
+   * Gets the fingers of the robot.
+   *
+   * @return the fingers of the robot
+   */
   @Override
   public int getFingers() {
     return fingers;

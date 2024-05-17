@@ -3,6 +3,13 @@ package nz.ac.auckland.se281;
 import java.util.ArrayList;
 import nz.ac.auckland.se281.Main.Choice;
 
+/**
+ * This class represents the MediumDifficulty.
+ *
+ * <p>This class implements the RobotDifficulty interface and is a difficulty level that the robot
+ * can use. This difficulty level is used when the robot wants to play a number of fingers based on
+ * the player's history and the choice of the game.
+ */
 public class MediumDifficulty implements RobotDifficulty {
 
   private Strategy strategy;
@@ -25,13 +32,21 @@ public class MediumDifficulty implements RobotDifficulty {
     this.strategy = strategy;
   }
 
-  /** This method returns the strategy that the robot will use. */
+  /**
+   * Gets the strategy that the robot will use.
+   *
+   * @return the strategy that the robot will use
+   */
   @Override
   public Strategy getStrategy() {
     return strategy;
   }
 
-  /** This method returns the number of fingers that the robot will put out. */
+  /**
+   * Play method for the robot.
+   *
+   * @return the number of fingers that the robot will put out
+   */
   @Override
   public int play() {
     return strategy.getFingers();
